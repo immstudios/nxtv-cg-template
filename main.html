@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CG Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+
+    window.playHandler = null;
+    window.stopHandler = null;
+    window.updateHandler = null;
+    window.playRequested = false;
+
+    function play() {
+      if (window.playHandler)
+        window.playHandler();
+      else
+        window.playRequested = true
+    }
+
+    function stop() {
+      window.playRequested = false
+      if (window.stopHandler) {
+        window.stopHandler();
+      }
+    }
+
+    function update() {
+      if (window.updateHandler) {
+        window.updateHandler();
+      }
+    }
+
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

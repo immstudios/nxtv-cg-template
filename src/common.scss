@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
+
+
+:root {
+  --color-night-01: #2E3440;
+  --color-night-02: #3B4252;
+  --color-night-03: #434C5E;
+  --color-night-04: #4C566A;
+
+  --color-snow-01: #D8DEE9;
+  --color-snow-02: #E5E9F0;
+  --color-snow-03: #ECEFF4;
+
+  --color-frost-01: #8FBCBB;
+  --color-frost-02: #88C0D0;
+  --color-frost-03: #81A1C1;
+  --color-frost-04: #5E81AC;
+
+  --color-aurora-01: #BF616A;
+  --color-aurora-02: #D08770;
+  --color-aurora-03: #EBCB8B;
+  --color-aurora-04: #A3BE8C;
+  --color-aurora-05: #B48EAD;
+
+  --color-text: var(--color-snow-01);
+}
+
+*, *:after, *:before {
+  box-sizing: inherit;
+}
+
+html, body {
+  background: transparent;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Saira';
+}
