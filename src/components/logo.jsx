@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { CSSTransition } from 'react-transition-group'
 
 const NXTVLogo = () => {
 
@@ -27,22 +28,36 @@ const NXTVLogo = () => {
 }
 
 const LogoContainer = styled.div`
-  ${ props => props.$show ? `
+  &.fade-enter {
+    opacity: 0;
+    transform: rotate3d(0, 1, 0, -90deg);
+  }
+
+  &.fade-enter-active {
     opacity: 1;
     transform: rotate3d(0, 0, 0, 0);
     transition: all 0.5s ease-in-out;
-  ` : `
+  }
+
+  &.fade-exit {
+    opacity: 1;
+    transform: rotate3d(0, 0, 0, 0);
+  }
+
+  &.fade-exit-active {
     opacity: 0;
-    transform: rotate3d(0, 1, 0, -90deg);
+    transform: rotate3d(0, 1, 0, 90deg);
     transition: all 0.5s ease-in-out;
-  `}
+  }
 `
 
 const Logo = ({visible}) => {
   return (
-    <LogoContainer $show={visible}>
-      <NXTVLogo />
-    </LogoContainer>
+    <CSSTransition in={visible} timeout={500} classNames="fade" unmountOnExit>
+      <LogoContainer>
+        <NXTVLogo />
+      </LogoContainer>
+    </CSSTransition>
   )
 }
 
