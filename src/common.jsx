@@ -111,19 +111,22 @@ const TemplateWrapper = ({defaultContext, ...props}) => {
   const handlePlay = () => setContext({...context, isPlaying: true})
   const handleStop = () => setContext({...context, isPlaying: false})
 
-  const updateContextFromEditor = useCallback(() => {
+  const updateContext = (data) => {
     try {
-      setContext(JSON.parse(contextEditor))
+      setContext(JSON.parse(data))
+      console.log("New context", data)
     }
     catch (e) {
-      console.log("DATA", contextEditor)
       console.error('Error parsing context', e)
+      console.error("DATA", data)
     }
-  }, [contextEditor])
+  }
+
 
   useEffect(() => {
     window.playHandler = handlePlay
     window.stopHandler = handleStop
+    window.updateHandler = updateContext
     if (!window.playRequested)
       return
     handlePlay()
@@ -156,7 +159,7 @@ const TemplateWrapper = ({defaultContext, ...props}) => {
           onKeyDown={(e) => {
             if (e.key === 'Enter' && e.ctrlKey) {
               e.preventDefault()
-              updateContextFromEditor()
+              updateContext(contextEditor)
             }
           }}
         />

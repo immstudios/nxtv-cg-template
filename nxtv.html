@@ -28,9 +28,10 @@
       }
     }
 
-    function update() {
+    function update(data) {
+      console.log('update', data);
       if (window.updateHandler) {
-        window.updateHandler();
+        window.updateHandler(data);
       }
     }
 

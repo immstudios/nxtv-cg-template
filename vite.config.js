@@ -13,7 +13,7 @@ export default defineConfig({
     assetsInlineLimit: 100000000,
     target: "es2015",
     rollupOptions: {
-      input: 'main.html',
+      input: 'nxtv.html',
     }
   }
 });

@@ -16,8 +16,8 @@ import Info from '/src/components/info.jsx'
 
 const DEFAULT_CONTEXT = {
   showLogo: true,
-  showClock: true,
-  showInfo: true,
+  showClock: false,
+  showInfo: false,
   info: ['Line 1', 'Line 2', 'Line 3']
 }
 
