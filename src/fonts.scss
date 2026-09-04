@@ -1,0 +1,21 @@
+// Injected into the real document <head> by main.jsx, not into our own
+// element's local stylesheet — see the comment in common.scss for why.
+// Self-hosted rather than a Google Fonts @import: a broadcast rendering
+// machine (CasparCG) commonly has no internet access. Only the normal
+// style / latin subset is bundled since that's all this template
+// actually uses (see clock.jsx and common.scss's `main` font-family).
+@font-face {
+  font-family: 'Saira';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('./assets/fonts/saira-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Kode Mono';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('./assets/fonts/kode-mono-latin.woff2') format('woff2');
+}
