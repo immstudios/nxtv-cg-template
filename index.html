@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CG Template (dev preview)</title>
+    <style>
+      html, body {
+        background: transparent;
+        overflow: hidden;
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+
+    window.__nxtvQueue = [];
+
+    function play(params) {
+      if (window.__nxtvGraphic)
+        window.__nxtvGraphic.playAction(params);
+      else
+        window.__nxtvQueue.push(['play', params]);
+    }
+
+    function stop(params) {
+      if (window.__nxtvGraphic)
+        window.__nxtvGraphic.stopAction(params);
+      else
+        window.__nxtvQueue.push(['stop', params]);
+    }
+
+    function update(data) {
+      if (window.__nxtvGraphic)
+        window.__nxtvGraphic.updateAction({ data: JSON.parse(data) });
+      else
+        window.__nxtvQueue.push(['update', data]);
+    }
+
+    </script>
+    <!-- Dev server runs over http, so a module script is fine here even
+         though the production AMCP bundle (src/amcp.jsx) can't use one. -->
+    <script type="module" src="/src/amcp.jsx"></script>
+  </body>
+</html>

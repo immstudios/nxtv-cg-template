@@ -1,9 +1,11 @@
-import { useState, useEffect, useMemo, createContext } from 'react'
+import { useState, useEffect, useMemo, useRef, createContext } from 'react'
 import styled from 'styled-components'
 
-import '/src/common.scss'
-
 const TemplateContext = createContext()
+
+// Must match [data-nxtv] main's fixed size in common.scss.
+const DESIGN_WIDTH = 1920
+const DESIGN_HEIGHT = 1080
 
 
 const SafeArea = styled.div`
@@ -96,24 +98,43 @@ const TextArea = styled.textarea`
 `
 
 
-const TemplateWrapper = ({defaultContext, ...props}) => {
-  const [context, setContext] = useState({...(defaultContext || {}), isPlaying: false})
-  const [contextEditor, setContextEditor] = useState("mmm")
+const TemplateWrapper = ({controller, ...props}) => {
+  const [context, setContext] = useState(controller.state)
+  const [contextEditor, setContextEditor] = useState("")
+  const [scale, setScale] = useState(1)
+  const mainRef = useRef(null)
 
   const isDev = useMemo(() => {
     return !!(import.meta.env.DEV || window.location.hostname === 'preview.nbla.xyz')
+  }, [])
+
+  useEffect(() => controller.subscribe(setContext), [controller])
+
+  // Fits the fixed 1920x1080 design canvas (main, below) into whatever
+  // box the host actually provides — a host isn't guaranteed to render
+  // at exactly 1920x1080. In dev preview, main's parent is the (already
+  // exactly 1920x1080) DevPreview box, so this resolves to a no-op scale
+  // of 1 there and DevPreview's own fixed scale still does the shrink.
+  useEffect(() => {
+    const container = mainRef.current?.parentElement
+    if (!container || typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect
+      if (width > 0 && height > 0) {
+        setScale(Math.min(width / DESIGN_WIDTH, height / DESIGN_HEIGHT))
+      }
+    })
+    observer.observe(container)
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
     setContextEditor(JSON.stringify(context, null, 2))
   }, [context])
 
-  const handlePlay = () => setContext({...context, isPlaying: true})
-  const handleStop = () => setContext({...context, isPlaying: false})
-
   const updateContext = (data) => {
     try {
-      setContext(JSON.parse(data))
+      controller.updateAction({ data: JSON.parse(data) })
       console.log("New context", data)
     }
     catch (e) {
@@ -123,19 +144,9 @@ const TemplateWrapper = ({defaultContext, ...props}) => {
   }
 
 
-  useEffect(() => {
-    window.playHandler = handlePlay
-    window.stopHandler = handleStop
-    window.updateHandler = updateContext
-    if (!window.playRequested)
-      return
-    handlePlay()
-  }, []) 
-
-
   const templateContent = (
     <TemplateContext.Provider value={context}>
-      <main>
+      <main ref={mainRef} style={{ transform: `scale(${scale})` }}>
         {props.children}
       </main>
     </TemplateContext.Provider>
