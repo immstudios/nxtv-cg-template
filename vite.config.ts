@@ -1,14 +1,14 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 // Two build passes produce two independent JS bundles from the same
 // source (see package.json's "build" script):
-//   - default mode: src/main.jsx -> nxtv.ograf.js, a real ES module
+//   - default mode: src/main.tsx -> nxtv.ograf.js, a real ES module
 //     (`export default` custom element) for OGraf-compliant renderers to
 //     import over http(s). Built in library mode: Vite's default app
 //     build assumes the entry has no meaningful exports and prunes them,
 //     which silently strips the `export default` an OGraf host needs.
-//   - --mode amcp:  src/amcp.jsx -> nxtv.amcp.js, a classic IIFE script
+//   - --mode amcp:  src/amcp.tsx -> nxtv.amcp.js, a classic IIFE script
 //     for CasparCG's HTML producer, which loads templates via file://,
 //     where an external type="module" script is not eligible: browsers
 //     refuse to fetch those over the file:// protocol.
@@ -49,7 +49,7 @@ export default defineConfig(({ mode, command }) => {
       // not ours — a data: URI needs no such resolution at all.
       assetsInlineLimit: 100_000,
       lib: {
-        entry: isAmcp ? 'src/amcp.jsx' : 'src/main.jsx',
+        entry: isAmcp ? 'src/amcp.tsx' : 'src/main.tsx',
         formats: [isAmcp ? 'iife' : 'es'],
         // iife requires a global variable name even though nothing reads it.
         name: isAmcp ? '__nxtvAmcpBundle' : undefined,
@@ -59,4 +59,4 @@ export default defineConfig(({ mode, command }) => {
       },
     }
   }
-});
+})

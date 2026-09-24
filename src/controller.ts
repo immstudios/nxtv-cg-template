@@ -1,39 +1,46 @@
+import type { GraphicState, LoadParams, TemplateData, UpdateActionParams } from './types'
+
+type Listener = (state: GraphicState) => void
+
 // Shared state machine driving the template, invoked identically by the
-// AMCP bridge (nxtv.html) and the OGraf custom-element lifecycle methods.
+// AMCP bridge (public/nxtv.html) and the OGraf custom-element lifecycle
+// methods (see main.tsx).
 class GraphicController {
-  constructor(defaultState = {}) {
+  state: GraphicState
+  private listeners = new Set<Listener>()
+
+  constructor(defaultState: TemplateData) {
     this.state = { ...defaultState, isPlaying: false }
-    this.listeners = new Set()
   }
 
-  subscribe(listener) {
+  subscribe(listener: Listener) {
     this.listeners.add(listener)
     listener(this.state)
     return () => this.listeners.delete(listener)
   }
 
-  _emit() {
+  private emit() {
     this.listeners.forEach((listener) => listener(this.state))
   }
 
-  load({ data } = {}) {
+  load({ data }: LoadParams = {}) {
     if (data) this.state = { ...this.state, ...data }
-    this._emit()
+    this.emit()
   }
 
   playAction() {
     this.state = { ...this.state, isPlaying: true }
-    this._emit()
+    this.emit()
   }
 
   stopAction() {
     this.state = { ...this.state, isPlaying: false }
-    this._emit()
+    this.emit()
   }
 
-  updateAction({ data } = {}) {
+  updateAction({ data }: UpdateActionParams = {}) {
     if (data) this.state = { ...this.state, ...data }
-    this._emit()
+    this.emit()
   }
 
   dispose() {

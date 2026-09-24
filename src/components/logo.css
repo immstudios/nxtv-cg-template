@@ -1,0 +1,21 @@
+.nxtv-logo.fade-enter {
+  opacity: 0;
+  transform: rotate3d(0, 1, 0, -90deg);
+}
+
+.nxtv-logo.fade-enter-active {
+  opacity: 1;
+  transform: rotate3d(0, 0, 0, 0);
+  transition: all 0.5s ease-in-out;
+}
+
+.nxtv-logo.fade-exit {
+  opacity: 1;
+  transform: rotate3d(0, 0, 0, 0);
+}
+
+.nxtv-logo.fade-exit-active {
+  opacity: 0;
+  transform: rotate3d(0, 1, 0, 90deg);
+  transition: all 0.5s ease-in-out;
+}
