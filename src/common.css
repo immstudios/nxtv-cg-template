@@ -1,6 +1,7 @@
 @import './components/clock.css';
 @import './components/info.css';
 @import './components/logo.css';
+@import './components/weather.css';
 
 /* @font-face rules live in fonts.css, injected into the real document
    <head> (see main.tsx), NOT here: Chrome (confirmed on 151, current)

@@ -9,6 +9,7 @@ import type { LoadParams, PlayActionParams, StopActionParams, TemplateData, Upda
 import Logo from './components/logo'
 import Clock from './components/clock'
 import Info from './components/info'
+import Weather from './components/weather'
 
 import commonStyles from './common.css?inline'
 import fontStyles from './fonts.css?inline'
@@ -19,22 +20,28 @@ const DEFAULT_CONTEXT: TemplateData = {
   showClock: false,
   showInfo: false,
   info: ['Line 1', 'Line 2', 'Line 3'],
+  showWeather: false,
+  weatherLocation: 'Prague',
 }
 
 
 const Template = () => {
-  const { showLogo, showClock, showInfo, info } = useTemplateContext()
+  const { showLogo, showClock, showInfo, info, showWeather, weatherLocation } = useTemplateContext()
 
   return (
-    <div className="nxtv-safe-area">
-      <div className="nxtv-corner nxtv-corner--top-left">
-        <Clock visible={showClock} />
-        <Info visible={showInfo} lines={info} />
+    <>
+      {/* Full-canvas layer, first so the corner elements draw above it. */}
+      <Weather visible={showWeather} location={weatherLocation} />
+      <div className="nxtv-safe-area">
+        <div className="nxtv-corner nxtv-corner--top-left">
+          <Clock visible={showClock} />
+          <Info visible={showInfo} lines={info} />
+        </div>
+        <div className="nxtv-corner nxtv-corner--bottom-right">
+          <Logo visible={showLogo} />
+        </div>
       </div>
-      <div className="nxtv-corner nxtv-corner--bottom-right">
-        <Logo visible={showLogo} />
-      </div>
-    </div>
+    </>
   )
 }
 

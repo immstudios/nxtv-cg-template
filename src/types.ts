@@ -6,6 +6,8 @@ export interface TemplateData {
   showClock: boolean
   showInfo: boolean
   info: string[]
+  showWeather: boolean
+  weatherLocation: string
 }
 
 export interface GraphicState extends TemplateData {
