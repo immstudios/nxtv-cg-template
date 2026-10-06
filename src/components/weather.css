@@ -1,0 +1,236 @@
+/* Covers the whole canvas (not just the safe area) so the backdrop can
+   bleed to the edges over the background video; the content itself is
+   inset to the same safe area as everything else (see common.css). */
+.nxtv-weather {
+  position: absolute;
+  inset: 0;
+  color: var(--color-text);
+}
+
+/* Keeps text legible over arbitrary video (bright clouds, snow, ...)
+   while leaving the upper part of the frame mostly clean. */
+.nxtv-weather-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(46, 52, 64, 0.9) 0%, rgba(46, 52, 64, 0.55) 40%, rgba(46, 52, 64, 0) 75%),
+    linear-gradient(to right, rgba(46, 52, 64, 0.35) 0%, rgba(46, 52, 64, 0) 60%);
+}
+
+.nxtv-weather-content {
+  position: absolute;
+  left: 96px;
+  bottom: 54px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.nxtv-weather-header h1,
+.nxtv-weather-panel h2 {
+  margin: 0;
+  font-weight: inherit;
+}
+
+.nxtv-weather-location {
+  font-size: 150px;
+  font-weight: 700;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--color-snow-03);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.nxtv-weather-subtitle {
+  display: flex;
+  gap: 32px;
+  margin-top: 16px;
+  font-size: 36px;
+  color: var(--color-aurora-03);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.nxtv-weather-subtitle span + span {
+  padding-left: 32px;
+  border-left: 3px solid var(--color-frost-02);
+  color: var(--color-text);
+}
+
+.nxtv-weather-panels {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+}
+
+.nxtv-weather-panel {
+  padding: 22px 28px 26px;
+  background-color: rgba(59, 66, 82, 0.88);
+  border-top: 6px solid var(--color-frost-02);
+}
+
+.nxtv-weather-panel .nxtv-weather-panel-title {
+  margin-bottom: 18px;
+  font-size: 22px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-frost-02);
+}
+
+.nxtv-weather-value {
+  font-family: 'Kode Mono';
+  font-size: 30px;
+}
+
+.nxtv-weather-muted {
+  font-size: 24px;
+  color: var(--color-frost-03);
+}
+
+.nxtv-weather-rain {
+  font-family: 'Kode Mono';
+  font-size: 20px;
+  color: var(--color-frost-02);
+}
+
+/* Now */
+.nxtv-weather-now {
+  width: 320px;
+  border-top-color: var(--color-aurora-03);
+}
+
+.nxtv-weather-now-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nxtv-weather-now-temperature {
+  font-family: 'Kode Mono';
+  font-size: 100px;
+  line-height: 1;
+}
+
+.nxtv-weather-now-description {
+  margin-top: 12px;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+/* Details */
+.nxtv-weather-details {
+  width: 340px;
+}
+
+.nxtv-weather-details dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px 20px;
+  margin: 0;
+  font-size: 26px;
+}
+
+.nxtv-weather-details dt {
+  color: var(--color-frost-03);
+}
+
+.nxtv-weather-details dd {
+  margin: 0;
+  text-align: right;
+  font-family: 'Kode Mono';
+}
+
+/* Next hours */
+.nxtv-weather-hourly-grid {
+  display: flex;
+  gap: 4px;
+}
+
+.nxtv-weather-hour {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 74px;
+}
+
+/* Next days */
+.nxtv-weather-daily {
+  width: 290px;
+}
+
+.nxtv-weather-daily-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nxtv-weather-day {
+  display: grid;
+  grid-template-columns: 70px 36px 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.nxtv-weather-day-name {
+  font-size: 26px;
+  text-transform: uppercase;
+}
+
+.nxtv-weather-day .nxtv-weather-value {
+  text-align: right;
+  font-size: 26px;
+}
+
+/* Staggered transitions: each piece carries its own --delay (set in
+   weather.tsx). 500ms below must match FADE_DURATION there. */
+.nxtv-weather.fade-enter .nxtv-weather-backdrop {
+  opacity: 0;
+}
+
+.nxtv-weather.fade-enter-active .nxtv-weather-backdrop {
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+  transition-delay: var(--delay, 0s);
+}
+
+.nxtv-weather.fade-exit .nxtv-weather-backdrop {
+  opacity: 1;
+}
+
+.nxtv-weather.fade-exit-active .nxtv-weather-backdrop {
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
+  transition-delay: var(--delay, 0s);
+}
+
+.nxtv-weather.fade-enter .nxtv-weather-item {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.nxtv-weather.fade-enter .nxtv-weather-header {
+  transform: translateX(-60px);
+}
+
+.nxtv-weather.fade-enter-active .nxtv-weather-item {
+  opacity: 1;
+  transform: none;
+  transition: opacity 500ms ease-out, transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--delay, 0s);
+}
+
+.nxtv-weather.fade-exit .nxtv-weather-item {
+  opacity: 1;
+  transform: none;
+}
+
+.nxtv-weather.fade-exit-active .nxtv-weather-item {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 500ms ease-in, transform 500ms ease-in;
+  transition-delay: var(--delay, 0s);
+}
+
+.nxtv-weather.fade-exit-active .nxtv-weather-header {
+  transform: translateX(-60px);
+}

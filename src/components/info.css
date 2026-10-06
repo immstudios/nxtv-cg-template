@@ -1,0 +1,45 @@
+.nxtv-info {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  line-height: 1.4;
+}
+
+.nxtv-info li {
+  list-style: none;
+  font-size: 34px;
+  color: var(--color-text);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.nxtv-info li:first-child {
+  text-transform: uppercase;
+  color: var(--color-aurora-03);
+}
+
+/* 300ms below must match FADE_DURATION in info.tsx (used there for the
+   CSSTransition timeout, so React unmounts the list only once these
+   transitions actually finish). */
+.nxtv-info.fade-enter li {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.nxtv-info.fade-enter-active li {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 300ms ease-in-out;
+  transition-delay: var(--delay, 0s);
+}
+
+.nxtv-info.fade-exit li {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nxtv-info.fade-exit-active li {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 300ms ease-in-out;
+  transition-delay: var(--delay, 0s);
+}
